@@ -12,8 +12,13 @@ import javafx.beans.property.SimpleIntegerProperty;
  * @author Aaron
  */
 public abstract class Tetrimino {
-    protected static final int GAME_WIDTH = 10;
-    protected static final int GAME_HEIGHT = 20;
+    //why are these in the Tetrimino class? This abstract tetrimino class is not
+    //designed to be an all-purpose generic Tetrimino class, but rather to work
+    //in the context of a game of Tetris. By storing the values here, we can
+    //apply some implementation in this abstract class that otherwise could not
+    //be done.
+    public static final int GAME_WIDTH = 10;
+    public static final int GAME_HEIGHT = 20;
     
     private final SimpleIntegerProperty pivotX = new SimpleIntegerProperty();
     private final SimpleIntegerProperty pivotY = new SimpleIntegerProperty();
