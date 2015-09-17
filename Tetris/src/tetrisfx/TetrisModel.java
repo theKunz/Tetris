@@ -41,8 +41,8 @@ public class TetrisModel {
     }
     
     public final void generateRandomTetrimino() {
-        //TODO: implement random generation
-        currentTet = new TetriminoSquare(3, 0);
+        //TODO: implement random generation once other Tetrimino child classes are fleshed out
+        currentTet = new TetriminoSquare(4, 0);
     }
     
     public Tetrimino getActiveTetrimino() {

@@ -18,6 +18,8 @@ public class TetrisFX extends Application {
     @Override
     public void start(Stage primaryStage) {
         TetrisView view = new TetrisView(primaryStage);
+        TetrisModel model = new TetrisModel();
+        TetrisController controller = new TetrisController(model, view);
         
     }
 

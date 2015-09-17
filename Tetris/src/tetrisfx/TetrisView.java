@@ -16,10 +16,14 @@ import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 
 
 
@@ -34,14 +38,14 @@ public class TetrisView {
     GridPane mainField = new GridPane();
     GridPane scoresAndMenu = new GridPane();
     GridPane root = new GridPane();
+    Pane[][] paneGrid = new Pane[10][20];
     
     Label score = new Label("0");
     
+    Scene scene;
+    
     public TetrisView(Stage primaryStage) {
         primaryStage.setResizable(false);
-        
-
-        
         
         ColumnConstraints column0 = new ColumnConstraints();
         column0.setPercentWidth(60);
@@ -63,9 +67,10 @@ public class TetrisView {
         
         ColumnConstraints columnBox;         
         for (int i = 0; i < 100 / BOX_WIDTH; i++) {
-            columnBox = new ColumnConstraints();
-            columnBox.setPercentWidth(BOX_WIDTH);
-            mainField.getColumnConstraints().add(columnBox);
+                columnBox = new ColumnConstraints();
+                columnBox.setPercentWidth(BOX_WIDTH);
+                mainField.getColumnConstraints().add(columnBox);
+                //mainField.add(new Pane(), i, j);
         }
         
         RowConstraints rowBox;         
@@ -75,6 +80,14 @@ public class TetrisView {
             mainField.getRowConstraints().add(rowBox);
         }
         mainField.setPadding(new Insets(10, 10, 10, 10));
+        
+        for (int i = 0; i < 100 / BOX_WIDTH; i++) {
+            for (int j = 0; j < 100/ BOX_HEIGHT; j++) {
+                paneGrid[i][j] = new Pane();
+                mainField.add(paneGrid[i][j], i, j);
+            }
+        }
+        
         
         RowConstraints nextTetriminoLabel = new RowConstraints();
         nextTetriminoLabel.setPercentHeight(5);
@@ -96,6 +109,7 @@ public class TetrisView {
         scoresAndMenu.setGridLinesVisible(true);
         
         Button newGame = new Button();
+        newGame.setFocusTraversable(false);
         newGame.setText("New Game");
         newGame.setOnAction(new EventHandler<ActionEvent>() {
             
@@ -118,7 +132,7 @@ public class TetrisView {
         GridPane.setHalignment(next, HPos.CENTER);
         GridPane.setValignment(next, VPos.CENTER);
         
-        Scene scene = new Scene(root, 800, 675);
+        scene = new Scene(root, 800, 675);
         primaryStage.setTitle("Tetris");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -130,5 +144,13 @@ public class TetrisView {
     
     public Label getScoreLabel() {
         return score;
+    }
+    
+    public Scene getScene() {
+        return scene;
+    }
+    
+    public Pane[][] getPaneGrid() {
+        return paneGrid;
     }
 }

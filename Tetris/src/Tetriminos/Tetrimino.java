@@ -7,6 +7,7 @@ package Tetriminos;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 /**
  *
  * @author Aaron
@@ -26,6 +27,8 @@ public abstract class Tetrimino {
     
     protected final SimpleIntegerProperty[] blocksX = new SimpleIntegerProperty[4];
     protected final SimpleIntegerProperty[] blocksY = new SimpleIntegerProperty[4];
+    
+    
     
     public Tetrimino(int x, int y) {
         setPivotPoint(x, y);
@@ -56,8 +59,8 @@ public abstract class Tetrimino {
      * none of 4 blocks are necessarily on the pivot point. 
      * @return index 0 = X, index 1 = Y
      */
-    public IntegerProperty[] getPivotPoint() {
-        IntegerProperty[] piv = {pivotX, pivotY};
+    public SimpleIntegerProperty[] getPivotPoint() {
+        SimpleIntegerProperty[] piv = {pivotX, pivotY};
         return piv;
     }
     
@@ -66,8 +69,8 @@ public abstract class Tetrimino {
      * in. Each dimension has a length of 4;
      * @return [i][j] where i is X coordinate and j is Y coordinate
      */
-    public IntegerProperty[][] getBlockLocations() {
-        IntegerProperty[][] blo = {blocksX, blocksY};
+    public SimpleIntegerProperty[][] getBlockLocations() {
+        SimpleIntegerProperty[][] blo = {blocksX, blocksY};
         return blo;
     }
     
@@ -131,6 +134,7 @@ public abstract class Tetrimino {
                 blocksY[i].set(blocksY[i].get() - delta);
             }
         }
+        this.movePivotPointUp(delta);
         return willMove;
     }
 
@@ -151,6 +155,7 @@ public abstract class Tetrimino {
                 blocksY[i].set(blocksY[i].get() + delta);
             }
         }
+        this.movePivotPointDown(delta);
         return willMove; 
     }
 
@@ -171,6 +176,7 @@ public abstract class Tetrimino {
                 blocksX[i].set(blocksX[i].get() + delta);
             }
         }
+        this.movePivotPointRight(delta);
         return willMove; 
     }
 
@@ -188,9 +194,10 @@ public abstract class Tetrimino {
         }
         if (willMove) {
             for (int i = 0; i < 4; i++) {
-                blocksY[i].set(blocksY[i].get() - delta);
+                blocksX[i].set(blocksX[i].get() - delta);
             }
         }
+        this.movePivotPointLeft(delta);
         return willMove;
     }
 }
