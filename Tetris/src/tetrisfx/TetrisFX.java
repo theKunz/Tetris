@@ -14,12 +14,15 @@ import javafx.stage.Stage;
  */
 public class TetrisFX extends Application {
     
+    TetrisView view;
+    TetrisModel model;
+    TetrisController controller;
     
     @Override
     public void start(Stage primaryStage) {
-        TetrisView view = new TetrisView(primaryStage);
-        TetrisModel model = new TetrisModel();
-        TetrisController controller = new TetrisController(model, view);
+        view = new TetrisView(primaryStage);
+        model = new TetrisModel();
+        controller = new TetrisController(model, view);
         
     }
 
@@ -30,4 +33,9 @@ public class TetrisFX extends Application {
         launch(args);
     }
     
+    @Override
+    public void stop(){
+        //System.out.println("Game is closing");
+        controller.stopGameLoop();
+    }
 }
