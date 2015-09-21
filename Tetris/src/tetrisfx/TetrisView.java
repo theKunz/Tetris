@@ -84,10 +84,12 @@ public class TetrisView {
         for (int i = 0; i < 100 / BOX_WIDTH; i++) {
             for (int j = 0; j < 100/ BOX_HEIGHT; j++) {
                 paneGrid[i][j] = new Pane();
+
                 mainField.add(paneGrid[i][j], i, j);
             }
         }
-        
+        mainField.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null)));
+        //TODO: add proper background in place of this holder
         
         RowConstraints nextTetriminoLabel = new RowConstraints();
         nextTetriminoLabel.setPercentHeight(5);
