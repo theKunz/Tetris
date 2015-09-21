@@ -5,8 +5,8 @@
  */
 package tetrisfx;
 
-import Tetriminos.Tetrimino;
-import Tetriminos.TetriminoSquare;
+import Tetriminos.*;
+import java.util.Random;
 
 /**
  *
@@ -42,7 +42,32 @@ public class TetrisModel {
     
     public final void generateRandomTetrimino() {
         //TODO: implement random generation once other Tetrimino child classes are fleshed out
-        currentTet = new TetriminoSquare(4, 0);
+        Random rand = new Random();
+        int next = rand.nextInt(7);
+        switch (next) {
+            case 0:
+                currentTet = new TetriminoSquare(4, 0);
+                break;
+            case 1:
+                currentTet = new TetriminoLine(4, 0);
+                break;
+            case 2:
+                currentTet = new TetriminoSquare(4, 0);
+                break;
+            case 3:
+                currentTet = new TetriminoLine(4, 0);
+                break;
+            case 4:
+                currentTet = new TetriminoSquare(4, 0);
+                break;
+            case 5:
+                currentTet = new TetriminoLine(4, 0);
+                break;
+            case 6:
+                currentTet = new TetriminoSquare(4, 0);
+                break;
+        }
+        
     }
     
     public Tetrimino getActiveTetrimino() {

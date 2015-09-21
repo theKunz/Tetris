@@ -6,7 +6,6 @@
 package tetrisfx;
 
 import Tetriminos.Tetrimino;
-import Tetriminos.TetriminoSquare;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,8 +31,8 @@ import javafx.scene.paint.Color;
  * @author Aaron
  */
 public class TetrisView {
-    private static final double BOX_HEIGHT = 100 / 20; //20 boxes in height
-    private static final double BOX_WIDTH = 100 / 10; //10 boxes in width
+    private static final double BOX_HEIGHT = 100 / Tetrimino.GAME_HEIGHT; //20 boxes in height
+    private static final double BOX_WIDTH = 100 / Tetrimino.GAME_WIDTH; //10 boxes in width
     
     GridPane mainField = new GridPane();
     GridPane scoresAndMenu = new GridPane();

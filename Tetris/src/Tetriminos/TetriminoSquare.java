@@ -19,20 +19,20 @@ public class TetriminoSquare extends Tetrimino {
         super(x, y);
         //(4,0) (5,0) (4,1) (5,1) //in a 1-based coordinate system
         for (int i = 0; i < 4; i++) {
-            blocksX[i] = new SimpleIntegerProperty((i % 2) + 3); //because 0 based, 3 is slot 4
+            blocksX[i] = new SimpleIntegerProperty((i % 2) + 4); //because 0 based, 3 is slot 4
             blocksY[i] = new SimpleIntegerProperty((int)(i / 2));
         }
     }
 
     @Override
     @SuppressWarnings("UnnecessaryReturnStatement")
-    public void rotateClockWise() {
+    public void rotateClockWise(boolean[][] board) {
         return; //can't rotate the square block
     }
 
     @Override
     
-    public void rotateCounterClockWise() {
+    public void rotateCounterClockWise(boolean[][] board) {
         return; //can't rotate the square block
     }
 

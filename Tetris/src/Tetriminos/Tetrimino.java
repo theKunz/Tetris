@@ -40,9 +40,9 @@ public abstract class Tetrimino {
         LINE, L, bL, T, SQUARE, Z, bZ
     }     
     
-    public abstract void rotateClockWise();
+    public abstract void rotateClockWise(boolean[][] board);
     
-    public abstract void rotateCounterClockWise();
+    public abstract void rotateCounterClockWise(boolean[][] board);
     
     public abstract blockType getBlockType();
     
@@ -50,8 +50,13 @@ public abstract class Tetrimino {
         return (board != null && board.length == GAME_WIDTH && board[0].length == GAME_HEIGHT);
     }
     
-    public int getRoation() {
+    public int getRotation() {
         return rotation.get();
+    }
+    
+    public void setRotation(int rotate) {
+        int a = (rotate == 0 || rotate == 90 || rotate == 180 || rotate == 270) ? rotate : rotation.get();
+        rotation.set(a);
     }
     
     /**
@@ -199,6 +204,29 @@ public abstract class Tetrimino {
         }
         this.movePivotPointLeft(delta);
         return willMove;
+    }
+    
+    protected boolean newPositionIsValid(int x, int y, boolean[][] board) {
+        return (x >= 0 && y >= 0 && x < GAME_WIDTH && y < GAME_HEIGHT && !board[x][y]);
+    }
+    
+    protected void rotateByValues(int[] delX, int delY[], boolean[][] board, boolean isClockwise) {
+        boolean validRotation = false;
+        for (int i = 0; i < 4; i++) {
+            validRotation |= newPositionIsValid(blocksX[i].get() + delX[i], blocksY[i].get() + delY[i], board);
+        }
+        if (validRotation) {
+            for (int i = 0; i < 4; i++) {
+                blocksX[i].set(blocksX[i].get() + delX[i]);
+                blocksY[i].set(blocksY[i].get() + delY[i]);
+            }
+            if (isClockwise) {
+                rotation.set((rotation.get() + 90) % 360);
+            }
+            else {
+                rotation.set((rotation.get() + 270) % 360);
+            }
+        }           
     }
 }
 

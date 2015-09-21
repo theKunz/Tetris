@@ -16,12 +16,12 @@ public class TetriminoBZ extends Tetrimino {
     }
 
     @Override
-    public void rotateClockWise() {
+    public void rotateClockWise(boolean[][] board) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void rotateCounterClockWise() {
+    public void rotateCounterClockWise(boolean[][] board) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -113,6 +113,14 @@ public class TetrisController {
                     System.out.println("RIGHT");
                     currentTet.shiftRight(1, gameStatus);
                     break;
+                case Z:
+                    System.out.println("Counterclockwise");
+                    currentTet.rotateCounterClockWise(gameStatus);
+                    break;
+                case X:
+                    System.out.println("Clockwise");
+                    currentTet.rotateClockWise(gameStatus);
+                    break;
             }
         });
         beginGameLoop();
