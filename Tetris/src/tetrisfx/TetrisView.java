@@ -38,6 +38,7 @@ public class TetrisView {
     GridPane scoresAndMenu = new GridPane();
     GridPane root = new GridPane();
     Pane[][] paneGrid = new Pane[10][20];
+    Button newGame;
     
     Label score = new Label("0");
     
@@ -109,18 +110,10 @@ public class TetrisView {
         mainField.setGridLinesVisible(true);
         scoresAndMenu.setGridLinesVisible(true);
         
-        Button newGame = new Button();
+        newGame = new Button();
         newGame.setFocusTraversable(false);
         newGame.setText("New Game");
-        newGame.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                //TODO: button functionality (possibly move to controller)
-                //set score to 0
-                //Clear board
-            }
-        });
+
         scoresAndMenu.add(newGame, 0, 3);
         GridPane.setHalignment(newGame, HPos.CENTER);
         
@@ -153,5 +146,9 @@ public class TetrisView {
     
     public Pane[][] getPaneGrid() {
         return paneGrid;
+    }
+    
+    public Button getNewGameButton() {
+        return newGame;
     }
 }

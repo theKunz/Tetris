@@ -12,9 +12,12 @@ import java.util.TimerTask;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -123,7 +126,32 @@ public class TetrisController {
                     break;
             }
         });
+        Button newGame = view.getNewGameButton();
+        newGame.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                reset();
+            }
+        });
+        
         beginGameLoop();
+    }
+    
+    private void reset() {
+        for (int i = 0; i < Tetrimino.GAME_WIDTH; i++) {
+            for (int j = 0; j < Tetrimino.GAME_HEIGHT; j++) {
+                gameStatus[i][j] = false;
+                paneGrid[i][j].setBackground(Background.EMPTY);
+            }
+        }
+        model.generateRandomTetrimino();
+        currentTet = model.getActiveTetrimino();
+        redrawBlocks(currentTet.getBlockLocations());
+        for (int i = 0; i < 4; i++)
+            addBlockListeners(i);
+        //TODO: Reset the score counter
+        //TODO: once implementation starts generate new random next (possibly implement this as part of model instead)
     }
     
     private void addBlockListeners(int i) {
@@ -151,21 +179,9 @@ public class TetrisController {
       
         if (isX) {
             paneGrid[oldv][yval].setBackground(Background.EMPTY);
-            redrawBlocksMovement(blocks);
         }
         else {
             paneGrid[xval][oldv].setBackground(Background.EMPTY);           
-            redrawBlocksMovement(blocks);
-        }
-    }
-    
-    //wrapper for when the tetrimino moves, so that over-drawing doesn't occur
-    private static int blockUpdateCount = 0; 
-    private void redrawBlocksMovement(SimpleIntegerProperty[][] blocks) {
-        blockUpdateCount++;
-        if (blockUpdateCount == 4) {
-            redrawBlocks(blocks);
-            blockUpdateCount = 0;
         }
     }
     
@@ -178,56 +194,65 @@ public class TetrisController {
     }
     
     private void beginGameLoop() {  
-        int interval = 1000;  
+        int interval = 1;
+        
         Timer timer = new Timer();
    
         timer.schedule(new TimerTask() {
+            int frameCounter = 0;
+            int loopUpdatePeriod = 1000;
             @Override
             public void run() {
-                if (!currentTet.shiftDown(1, gameStatus)) {
-                    //Update the board
-                    int lowest = -1;
-                    for (int i = 0; i < 4; i++) {
-                        if (currentTet.getBlockLocations()[1][i].get() > lowest) {
-                            lowest = currentTet.getBlockLocations()[1][i].get();
+                if (frameCounter == loopUpdatePeriod) {
+                    if (!currentTet.shiftDown(1, gameStatus)) {
+                        //Update the board
+                        int lowest = -1;
+                        for (int i = 0; i < 4; i++) {
+                            if (currentTet.getBlockLocations()[1][i].get() > lowest) {
+                                lowest = currentTet.getBlockLocations()[1][i].get();
+                            }
+                            gameStatus[currentTet.getBlockLocations()[0][i].get()][currentTet.getBlockLocations()[1][i].get()] = true;       
                         }
-                        gameStatus[currentTet.getBlockLocations()[0][i].get()][currentTet.getBlockLocations()[1][i].get()] = true;       
-                    }
-                    
-                    //Remove full rows and adjust game board
-                    //TODO: QA for when the full rows are not adjacent
-                    ArrayList<Integer> rowRem = new ArrayList<>();
-                    for (; lowest > lowest - 4 && lowest >= 0; lowest--) {
-                        boolean rowStatus = true;
-                        for (int xval = 0; xval < Tetrimino.GAME_WIDTH; xval++)
-                            rowStatus &= gameStatus[xval][lowest]; 
-                        if (rowStatus) {
-                            rowRem.add(lowest);
+
+                        //Remove full rows and adjust game board
+                        ArrayList<Integer> rowRem = new ArrayList<>();
+                        for (; lowest > lowest - 4 && lowest >= 0; lowest--) {
+                            boolean rowStatus = true;
+                            for (int xval = 0; xval < Tetrimino.GAME_WIDTH; xval++)
+                                rowStatus &= gameStatus[xval][lowest]; 
+                            if (rowStatus) {
+                                rowRem.add(lowest);
+                            }
                         }
-                    }
-                    while (!rowRem.isEmpty()) {
-                        int currentRow = rowRem.remove(rowRem.size() - 1);
-                        for (int xval = 0; xval < Tetrimino.GAME_WIDTH; xval++) {
-                            for (int i = currentRow; i >= 0; i--) {
-                                if (i == 0) {
-                                    gameStatus[xval][i] = false;
-                                    paneGrid[xval][i].setBackground(Background.EMPTY);
-                                } else {
-                                    gameStatus[xval][i] = gameStatus[xval][i - 1];
-                                    paneGrid[xval][i].setBackground(paneGrid[xval][i - 1].getBackground());
+                        while (!rowRem.isEmpty()) {
+                            int currentRow = rowRem.remove(rowRem.size() - 1);
+                            for (int xval = 0; xval < Tetrimino.GAME_WIDTH; xval++) {
+                                for (int i = currentRow; i >= 0; i--) {
+                                    if (i == 0) {
+                                        gameStatus[xval][i] = false;
+                                        paneGrid[xval][i].setBackground(Background.EMPTY);
+                                    } else {
+                                        gameStatus[xval][i] = gameStatus[xval][i - 1];
+                                        paneGrid[xval][i].setBackground(paneGrid[xval][i - 1].getBackground());
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    //Generate a new Tetrimino
-                    model.generateRandomTetrimino();
-                    currentTet = model.getActiveTetrimino();
-                    redrawBlocks(currentTet.getBlockLocations());
-                    for (int i = 0; i < 4; i++) {
-                        addBlockListeners(i);  
+                        //Generate a new Tetrimino
+                        model.generateRandomTetrimino();
+                        currentTet = model.getActiveTetrimino();
+                        redrawBlocks(currentTet.getBlockLocations());
+                        for (int i = 0; i < 4; i++) {
+                            addBlockListeners(i);  
+                        }
                     }
+                    frameCounter = 0;
                 }
+                else {
+                    frameCounter++;
+                }
+                redrawBlocks(currentTet.getBlockLocations());
                 //System.out.println("In Game loop");
                 if (stopGameLoop) {
                     timer.cancel();

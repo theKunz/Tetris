@@ -42,11 +42,16 @@ public class TetriminoLine extends Tetrimino{
                 int[] xRotVal180 = {-2, -1, 0, 1};
                 int[] yRotVal180 = {1, 0, -1 , -2};
                 rotateByValues(xRotVal180, yRotVal180, board, true);
+                break;
             case 270:
-                int[] xRotVal270 = {-2, -1, 0, 1};
-                int[] yRotVal270 = {1, 0, -1 , -2};
+                int[] xRotVal270 = {-1, 0, 1 , 2};
+                int[] yRotVal270 = {-2, -1, 0, 1};
                 rotateByValues(xRotVal270, yRotVal270, board, true);                
                 break;
+        }
+        System.out.println("{now " + super.getRotation() + "}");
+        for (int i = 0; i < 4; i++) {
+            System.out.println("(" + blocksX[i].get() + ", " + blocksY[i].get() + ")");
         }
     }
 
@@ -62,7 +67,7 @@ public class TetriminoLine extends Tetrimino{
                 break;
             case 90:
                 int[] xRotVal90 = {-2, -1, 0, 1};
-                int[] yRotVal90 = {1, 0, -1, 2};
+                int[] yRotVal90 = {1, 0, -1, -2};
                 rotateByValues(xRotVal90, yRotVal90, board, false);
                 break;
             case 180:
@@ -75,6 +80,10 @@ public class TetriminoLine extends Tetrimino{
                 int[] yRotVal270 = {-1, 0, 1, 2};
                 rotateByValues(xRotVal270, yRotVal270, board, false);
                 break;
+        }
+        System.out.println("{now " + super.getRotation() + "}");
+        for (int i = 0; i < 4; i++) {
+            System.out.println("(" + blocksX[i].get() + ", " + blocksY[i].get() + ")");
         }
     }
 

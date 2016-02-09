@@ -16,7 +16,7 @@ public class TetrisModel {
 
     private final boolean[][] board = new boolean[Tetrimino.GAME_WIDTH][Tetrimino.GAME_HEIGHT];
     private Tetrimino currentTet;
-    
+
     public TetrisModel() {
         for (boolean[] board1 : board) {
             for (int j = 0; j < board[0].length; j++) {
@@ -25,11 +25,11 @@ public class TetrisModel {
         }
         generateRandomTetrimino();
     }
-    
+
     public boolean[][] getBoardState() {
         return board;
     }
-    
+
     public void setBoardState(int x, int y, boolean val) {
         try {
             board[x][y] = val;
@@ -39,9 +39,10 @@ public class TetrisModel {
             e.printStackTrace();
         }
     }
-    
+
     public final void generateRandomTetrimino() {
         //TODO: implement random generation once other Tetrimino child classes are fleshed out
+        //printBoardState();
         Random rand = new Random();
         int next = rand.nextInt(7);
         switch (next) {
@@ -67,10 +68,22 @@ public class TetrisModel {
                 currentTet = new TetriminoSquare(4, 0);
                 break;
         }
-        
+
     }
-    
+
     public Tetrimino getActiveTetrimino() {
         return currentTet;
+    }
+    
+    private void printBoardState() {
+        System.out.println("------------------");
+        for (int i = 0; i < 20; i++) {
+            for (int k = 0; k < 10; k++) {
+                int out = (board[k][i]) ? 1 : 0;
+                System.out.print(out + " ");
+            }
+            System.out.print("\n");
+        }
+        System.out.println("------------------");
     }
 }

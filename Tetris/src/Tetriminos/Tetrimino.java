@@ -211,9 +211,9 @@ public abstract class Tetrimino {
     }
     
     protected void rotateByValues(int[] delX, int delY[], boolean[][] board, boolean isClockwise) {
-        boolean validRotation = false;
+        boolean validRotation = true;
         for (int i = 0; i < 4; i++) {
-            validRotation |= newPositionIsValid(blocksX[i].get() + delX[i], blocksY[i].get() + delY[i], board);
+            validRotation &= newPositionIsValid(blocksX[i].get() + delX[i], blocksY[i].get() + delY[i], board);
         }
         if (validRotation) {
             for (int i = 0; i < 4; i++) {
