@@ -41,10 +41,10 @@ public class TetrisModel {
     }
 
     public final void generateRandomTetrimino() {
-        //TODO: implement random generation once other Tetrimino child classes are fleshed out
-        //printBoardState();
+
         Random rand = new Random();
         int next = rand.nextInt(7);
+        //TODO: Implement a "smart random" so no more than 2 in a row occur
         switch (next) {
             case 0:
                 currentTet = new TetriminoSquare(4, 0);
@@ -53,19 +53,19 @@ public class TetrisModel {
                 currentTet = new TetriminoLine(4, 0);
                 break;
             case 2:
-                currentTet = new TetriminoSquare(4, 0);
+                currentTet = new TetriminoT(5, 0);
                 break;
             case 3:
-                currentTet = new TetriminoLine(4, 0);
+                currentTet = new TetriminoL(5, 0);
                 break;
             case 4:
-                currentTet = new TetriminoSquare(4, 0);
+                currentTet = new TetriminoBL(5, 0);
                 break;
             case 5:
-                currentTet = new TetriminoLine(4, 0);
+                currentTet = new TetriminoBZ(5, 1);
                 break;
             case 6:
-                currentTet = new TetriminoSquare(4, 0);
+                currentTet = new TetriminoZ(5, 1);
                 break;
         }
 
