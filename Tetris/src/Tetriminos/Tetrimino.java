@@ -138,8 +138,9 @@ public abstract class Tetrimino {
             for (int i = 0; i < 4; i++) {
                 blocksY[i].set(blocksY[i].get() - delta);
             }
+            this.movePivotPointUp(delta);
         }
-        this.movePivotPointUp(delta);
+
         return willMove;
     }
 
@@ -159,8 +160,9 @@ public abstract class Tetrimino {
             for (int i = 0; i < 4; i++) {
                 blocksY[i].set(blocksY[i].get() + delta);
             }
+            this.movePivotPointDown(delta);
         }
-        this.movePivotPointDown(delta);
+
         return willMove; 
     }
 
@@ -180,8 +182,9 @@ public abstract class Tetrimino {
             for (int i = 0; i < 4; i++) {
                 blocksX[i].set(blocksX[i].get() + delta);
             }
+            this.movePivotPointRight(delta);
         }
-        this.movePivotPointRight(delta);
+
         return willMove; 
     }
 
@@ -201,8 +204,9 @@ public abstract class Tetrimino {
             for (int i = 0; i < 4; i++) {
                 blocksX[i].set(blocksX[i].get() - delta);
             }
+            this.movePivotPointLeft(delta);            
         }
-        this.movePivotPointLeft(delta);
+
         return willMove;
     }
     

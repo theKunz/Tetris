@@ -49,10 +49,6 @@ public class TetriminoLine extends Tetrimino{
                 rotateByValues(xRotVal270, yRotVal270, board, true);                
                 break;
         }
-        System.out.println("{now " + super.getRotation() + "}");
-        for (int i = 0; i < 4; i++) {
-            System.out.println("(" + blocksX[i].get() + ", " + blocksY[i].get() + ")");
-        }
     }
 
     @Override
@@ -81,16 +77,10 @@ public class TetriminoLine extends Tetrimino{
                 rotateByValues(xRotVal270, yRotVal270, board, false);
                 break;
         }
-        System.out.println("{now " + super.getRotation() + "}");
-        for (int i = 0; i < 4; i++) {
-            System.out.println("(" + blocksX[i].get() + ", " + blocksY[i].get() + ")");
-        }
     }
 
     @Override
     public blockType getBlockType() {
         return blockType.LINE;
     }
-    
-
 }

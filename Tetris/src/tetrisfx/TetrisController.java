@@ -51,7 +51,7 @@ public class TetrisController {
         }
         
         //testing----------
-        redrawBlocks(currentTet.getBlockLocations());
+        //redrawBlocks(currentTet.getBlockLocations());
         gameStatus[5][10] = true;
         paneGrid[5][10].setBackground(new Background(new BackgroundFill(Color.BLUEVIOLET, null, null)));
         gameStatus[4][10] = true;
@@ -176,7 +176,10 @@ public class TetrisController {
         int oldv = Integer.parseInt(old_val.toString());
         int yval = blocks[1][blockNum].get();
         int xval = blocks[0][blockNum].get();
-      
+        
+        //TODO: Change so that setBackground only called on y-change, and use
+        //      static variable to store the old X value for when y-change is
+        //      invoked.
         if (isX) {
             paneGrid[oldv][yval].setBackground(Background.EMPTY);
         }
@@ -205,39 +208,7 @@ public class TetrisController {
             public void run() {
                 if (frameCounter == loopUpdatePeriod) {
                     if (!currentTet.shiftDown(1, gameStatus)) {
-                        //Update the board
-                        int lowest = -1;
-                        for (int i = 0; i < 4; i++) {
-                            if (currentTet.getBlockLocations()[1][i].get() > lowest) {
-                                lowest = currentTet.getBlockLocations()[1][i].get();
-                            }
-                            gameStatus[currentTet.getBlockLocations()[0][i].get()][currentTet.getBlockLocations()[1][i].get()] = true;       
-                        }
-
-                        //Remove full rows and adjust game board
-                        ArrayList<Integer> rowRem = new ArrayList<>();
-                        for (; lowest > lowest - 4 && lowest >= 0; lowest--) {
-                            boolean rowStatus = true;
-                            for (int xval = 0; xval < Tetrimino.GAME_WIDTH; xval++)
-                                rowStatus &= gameStatus[xval][lowest]; 
-                            if (rowStatus) {
-                                rowRem.add(lowest);
-                            }
-                        }
-                        while (!rowRem.isEmpty()) {
-                            int currentRow = rowRem.remove(rowRem.size() - 1);
-                            for (int xval = 0; xval < Tetrimino.GAME_WIDTH; xval++) {
-                                for (int i = currentRow; i >= 0; i--) {
-                                    if (i == 0) {
-                                        gameStatus[xval][i] = false;
-                                        paneGrid[xval][i].setBackground(Background.EMPTY);
-                                    } else {
-                                        gameStatus[xval][i] = gameStatus[xval][i - 1];
-                                        paneGrid[xval][i].setBackground(paneGrid[xval][i - 1].getBackground());
-                                    }
-                                }
-                            }
-                        }
+                        removeLines();
 
                         //Generate a new Tetrimino
                         model.generateRandomTetrimino();
@@ -263,5 +234,42 @@ public class TetrisController {
     
     public void stopGameLoop() {
         stopGameLoop = true;
+    }
+    
+    private void removeLines() {
+        //Update the board
+        int lowest = -1;
+        for (int i = 0; i < 4; i++) {
+            if (currentTet.getBlockLocations()[1][i].get() > lowest) {
+                lowest = currentTet.getBlockLocations()[1][i].get();
+            }
+            gameStatus[currentTet.getBlockLocations()[0][i].get()][currentTet.getBlockLocations()[1][i].get()] = true;
+        }
+
+        //Remove full rows and adjust game board
+        ArrayList<Integer> rowRem = new ArrayList<>();
+        for (; lowest > lowest - 4 && lowest >= 0; lowest--) {
+            boolean rowStatus = true;
+            for (int xval = 0; xval < Tetrimino.GAME_WIDTH; xval++) {
+                rowStatus &= gameStatus[xval][lowest];
+            }
+            if (rowStatus) {
+                rowRem.add(lowest);
+            }
+        }
+        while (!rowRem.isEmpty()) {
+            int currentRow = rowRem.remove(rowRem.size() - 1);
+            for (int xval = 0; xval < Tetrimino.GAME_WIDTH; xval++) {
+                for (int i = currentRow; i >= 0; i--) {
+                    if (i == 0) {
+                        gameStatus[xval][i] = false;
+                        paneGrid[xval][i].setBackground(Background.EMPTY);
+                    } else {
+                        gameStatus[xval][i] = gameStatus[xval][i - 1];
+                        paneGrid[xval][i].setBackground(paneGrid[xval][i - 1].getBackground());
+                    }
+                }
+            }
+        }    
     }
 }
