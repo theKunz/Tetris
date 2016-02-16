@@ -15,9 +15,7 @@ public class TetriminoSquare extends Tetrimino {
     
     //we will assume that the open spot is open, as checking for open area
     //will be done before actually spawning the next tetrimino
-    public TetriminoSquare(int x, int y) {
-        super(x, y);
-        //(4,0) (5,0) (4,1) (5,1) //in a 1-based coordinate system
+    public TetriminoSquare() {
         for (int i = 0; i < 4; i++) {
             blocksX[i] = new SimpleIntegerProperty((i % 2) + 4); //because 0 based, 3 is slot 4
             blocksY[i] = new SimpleIntegerProperty((int)(i / 2));

@@ -14,9 +14,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public class TetriminoLine extends Tetrimino{
 
-    public TetriminoLine(int x, int y) {
-        super(x, y);
-        //(4,0) (5,0) (6,0) (7,0) 1-based
+    public TetriminoLine() {
         for (int i = 3; i < 7; i++) {
             blocksX[i - 3] = new SimpleIntegerProperty(i);
             blocksY[i - 3] = new SimpleIntegerProperty(0);

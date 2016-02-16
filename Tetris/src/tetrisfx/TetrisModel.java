@@ -47,25 +47,25 @@ public class TetrisModel {
         //TODO: Implement a "smart random" so no more than 2 in a row occur
         switch (next) {
             case 0:
-                currentTet = new TetriminoSquare(4, 0);
+                currentTet = new TetriminoSquare();
                 break;
             case 1:
-                currentTet = new TetriminoLine(4, 0);
+                currentTet = new TetriminoLine();
                 break;
             case 2:
-                currentTet = new TetriminoT(5, 0);
+                currentTet = new TetriminoT();
                 break;
             case 3:
-                currentTet = new TetriminoL(5, 0);
+                currentTet = new TetriminoL();
                 break;
             case 4:
-                currentTet = new TetriminoBL(5, 0);
+                currentTet = new TetriminoBL();
                 break;
             case 5:
-                currentTet = new TetriminoBZ(5, 1);
+                currentTet = new TetriminoBZ();
                 break;
             case 6:
-                currentTet = new TetriminoZ(5, 1);
+                currentTet = new TetriminoZ();
                 break;
         }
 
