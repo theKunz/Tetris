@@ -6,6 +6,11 @@
 package Tetriminos;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 
 
 /**
@@ -80,5 +85,10 @@ public class TetriminoLine extends Tetrimino{
     @Override
     public blockType getBlockType() {
         return blockType.LINE;
+    }
+    
+    public static BackgroundImage getBackground() {
+        return new BackgroundImage(new Image("/TealBlock.png"), BackgroundRepeat.ROUND, 
+                BackgroundRepeat.ROUND, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
     }
 }

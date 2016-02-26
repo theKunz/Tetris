@@ -15,6 +15,7 @@ import java.util.Random;
 public class TetrisModel {
 
     private final boolean[][] board = new boolean[Tetrimino.GAME_WIDTH][Tetrimino.GAME_HEIGHT];
+    private final Tetrimino.blockType[][] blockGrid = new Tetrimino.blockType[Tetrimino.GAME_WIDTH][Tetrimino.GAME_HEIGHT];
     private Tetrimino currentTet;
 
     public TetrisModel() {
@@ -29,6 +30,10 @@ public class TetrisModel {
     public boolean[][] getBoardState() {
         return board;
     }
+    
+    public Tetrimino.blockType[][] getBlockColors() {
+        return blockGrid;
+    }
 
     public void setBoardState(int x, int y, boolean val) {
         try {
@@ -36,6 +41,15 @@ public class TetrisModel {
         } catch (IndexOutOfBoundsException e) {
             //This is dirty, exception handling generally shouldn't be made of println's
             System.out.println("setBoardState failed");
+            e.printStackTrace();
+        }
+    }
+    
+    public void setBlockColors(int x, int y, Tetrimino.blockType blockType) {
+        try {
+            blockGrid[x][y] = blockType;
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("setBlockColors failed");
             e.printStackTrace();
         }
     }

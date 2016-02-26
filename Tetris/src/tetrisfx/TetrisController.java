@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -35,7 +36,8 @@ public class TetrisController {
     Tetrimino currentTet;
     GridPane gameView;
     Pane[][] paneGrid;
-    boolean[][] gameStatus; 
+    boolean[][] gameStatus;
+    Tetrimino.blockType[][] blockGrid;
     boolean stopGameLoop = false;
     
     public TetrisController(TetrisModel model, TetrisView view) {
@@ -45,18 +47,12 @@ public class TetrisController {
         currentTet = model.getActiveTetrimino();
         paneGrid = view.getPaneGrid();
         gameStatus = model.getBoardState();
-        
+        blockGrid = model.getBlockColors();
         for (int i = 0; i < 4; i++) {
             addBlockListeners(i);  
         }
         
         //testing----------
-        //redrawBlocks(currentTet.getBlockLocations());
-        gameStatus[5][10] = true;
-        paneGrid[5][10].setBackground(new Background(new BackgroundFill(Color.BLUEVIOLET, null, null)));
-        gameStatus[4][10] = true;
-        paneGrid[4][10].setBackground(new Background(new BackgroundFill(Color.BLUEVIOLET, null, null)));
-        //--/testing--------
         Scene scene = view.getScene();
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
@@ -72,10 +68,10 @@ public class TetrisController {
                         //Generate a new Tetrimino
                         model.generateRandomTetrimino();
                         currentTet = model.getActiveTetrimino();
-                        redrawBlocks(currentTet.getBlockLocations());
                         for (int i = 0; i < 4; i++) {
                             addBlockListeners(i);  
                         }
+                        redrawBoard(gameStatus, currentTet.getBlockLocations());
                     }
                     break;
                 case LEFT:
@@ -112,6 +108,7 @@ public class TetrisController {
         for (int i = 0; i < Tetrimino.GAME_WIDTH; i++) {
             for (int j = 0; j < Tetrimino.GAME_HEIGHT; j++) {
                 gameStatus[i][j] = false;
+                blockGrid[i][j] = null;
                 paneGrid[i][j].setBackground(Background.EMPTY);
             }
         }
@@ -147,9 +144,6 @@ public class TetrisController {
         int yval = blocks[1][blockNum].get();
         int xval = blocks[0][blockNum].get();
         
-        //TODO: Change so that setBackground only called on y-change, and use
-        //      static variable to store the old X value for when y-change is
-        //      invoked.
         if (isX) {
             paneGrid[oldv][yval].setBackground(Background.EMPTY);
         }
@@ -160,21 +154,61 @@ public class TetrisController {
     }
     
     private void redrawBlocks(SimpleIntegerProperty[][] blocks) {
-        for (int i = 0; i < 4; i++) {
+        //then redraw the active tetrimino
+        for (int i = 0; i < 4; i++) {            
             paneGrid[blocks[0][i].get()][blocks[1][i].get()].setBackground(
-                new Background(new BackgroundFill(Color.YELLOW, null, null)));
-            //TODO: add switch for tetrimino type to color
+                /*new Background(currentTet.getBackground())*/new Background(new BackgroundFill(Color.YELLOW, null, null)));
         } 
     }
     
     private void redrawBoard(boolean[][] board, SimpleIntegerProperty[][] blocks) {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 20; j++) {
-                if (board[i][j]) {
-                    //TODO: add color matching
-                    paneGrid[i][j].setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null)));
+        //first redraw the board environment
+        for (int i = 0; i < Tetrimino.GAME_WIDTH; i++) {
+            for (int j = 0; j < Tetrimino.GAME_HEIGHT; j++) {
+                if (blockGrid[i][j] != null) {
+                    Background b = Background.EMPTY;
+                    switch (blockGrid[i][j]) {
+                        case bL:
+                            //b = new Background(TetriminoBL.getBackground());
+                            b = new Background(new BackgroundFill(Color.BLUE, null, null));
+                            System.out.print("BL: ");
+                            break;
+                        case bZ:
+                            //b = new Background(TetriminoBZ.getBackground());
+                            b = new Background(new BackgroundFill(Color.GREEN, null, null));
+                            System.out.print("BZ: ");
+                            break;
+                        case LINE:
+                            //b = new Background(TetriminoLine.getBackground());
+                            b = new Background(new BackgroundFill(Color.TEAL, null, null));
+                            System.out.print("Line: ");
+                            break;
+                        case L:
+                            //b = new Background(TetriminoL.getBackground());
+                            b = new Background(new BackgroundFill(Color.ORANGE, null, null));
+                            System.out.print("L: ");
+                            break;
+                        case Z:
+                            //b = new Background(TetriminoZ.getBackground());
+                            b = new Background(new BackgroundFill(Color.RED, null, null));
+                            System.out.print("Z: ");
+                            break;
+                        case SQUARE:
+                            //b = new Background(TetriminoSquare.getBackground());
+                            b = new Background(new BackgroundFill(Color.YELLOW, null, null));
+                            System.out.print("Square: ");
+                            break;
+                        case T:
+                            //b = new Background(TetriminoT.getBackground());
+                            b = new Background(new BackgroundFill(Color.PURPLE, null, null));
+                            System.out.print("T: ");
+                            break;
+                    }
+                    System.out.println("setting (" + i + ", " + j + ")");
+                    paneGrid[i][j].setBackground(b);
                 }
                 else {
+                    //TODO: add a custom background image
                     paneGrid[i][j].setBackground(Background.EMPTY);
                 }
             }
@@ -199,10 +233,10 @@ public class TetrisController {
                         //Generate a new Tetrimino
                         model.generateRandomTetrimino();
                         currentTet = model.getActiveTetrimino();
-                        redrawBlocks(currentTet.getBlockLocations());
                         for (int i = 0; i < 4; i++) {
                             addBlockListeners(i);  
                         }
+                        redrawBoard(gameStatus, currentTet.getBlockLocations());
                     }
                     frameCounter = 0;
                 }
@@ -230,6 +264,7 @@ public class TetrisController {
                 lowest = currentTet.getBlockLocations()[1][i].get();
             }
             gameStatus[currentTet.getBlockLocations()[0][i].get()][currentTet.getBlockLocations()[1][i].get()] = true;
+            blockGrid[currentTet.getBlockLocations()[0][i].get()][currentTet.getBlockLocations()[1][i].get()] = currentTet.getBlockType();
         }
 
         //Remove full rows and adjust game board
@@ -249,9 +284,11 @@ public class TetrisController {
                 for (int i = currentRow; i >= 0; i--) {
                     if (i == 0) {
                         gameStatus[xval][i] = false;
+                        blockGrid[xval][i] = null;
                         paneGrid[xval][i].setBackground(Background.EMPTY);
                     } else {
                         gameStatus[xval][i] = gameStatus[xval][i - 1];
+                        blockGrid[xval][i] = blockGrid[xval][i - 1];
                         paneGrid[xval][i].setBackground(paneGrid[xval][i - 1].getBackground());
                     }
                 }
