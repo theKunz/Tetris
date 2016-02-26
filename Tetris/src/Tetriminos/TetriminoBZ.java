@@ -91,7 +91,7 @@ public class TetriminoBZ extends Tetrimino {
     }
 
     public static BackgroundImage getBackground() {
-        return new BackgroundImage(new Image("/GreenBlock.png"), BackgroundRepeat.ROUND, 
-                BackgroundRepeat.ROUND, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        return new BackgroundImage(new Image("/GreenBlock.png", false), BackgroundRepeat.NO_REPEAT, 
+                BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
     }
 }

@@ -57,12 +57,9 @@ public class TetrisController {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
                 case UP:
-                    System.out.println("UP");
                     currentTet.shiftUp(1, gameStatus);
                     break;
                 case DOWN:
-                    System.out.println("DOWN");
-                    //copied wholesale from the gameloop. Good practice would be to give its own function. Just lazy 
                     if(!currentTet.shiftDown(1, gameStatus)) { 
                         removeLines();
                         //Generate a new Tetrimino
@@ -75,19 +72,15 @@ public class TetrisController {
                     }
                     break;
                 case LEFT:
-                    System.out.println("LEFT");
                     currentTet.shiftLeft(1, gameStatus);
                     break;
                 case RIGHT:
-                    System.out.println("RIGHT");
                     currentTet.shiftRight(1, gameStatus);
                     break;
                 case Z:
-                    System.out.println("Counterclockwise");
                     currentTet.rotateCounterClockWise(gameStatus);
                     break;
                 case X:
-                    System.out.println("Clockwise");
                     currentTet.rotateClockWise(gameStatus);
                     break;
             }
@@ -155,9 +148,32 @@ public class TetrisController {
     
     private void redrawBlocks(SimpleIntegerProperty[][] blocks) {
         //then redraw the active tetrimino
-        for (int i = 0; i < 4; i++) {            
-            paneGrid[blocks[0][i].get()][blocks[1][i].get()].setBackground(
-                /*new Background(currentTet.getBackground())*/new Background(new BackgroundFill(Color.YELLOW, null, null)));
+        for (int i = 0; i < 4; i++) {
+            Background b = Background.EMPTY;
+                switch (currentTet.getBlockType()) {
+                    case bL:
+                    b = new Background(TetriminoBL.getBackground());
+                    break;
+                case bZ:
+                    b = new Background(TetriminoBZ.getBackground());
+                    break;
+                case LINE:
+                    b = new Background(TetriminoLine.getBackground());
+                    break;
+                case L:
+                    b = new Background(TetriminoL.getBackground());
+                    break;
+                case Z:
+                    b = new Background(TetriminoZ.getBackground());
+                    break;
+                case SQUARE:
+                    b = new Background(TetriminoSquare.getBackground());
+                    break;
+                case T:
+                    b = new Background(TetriminoT.getBackground());
+                    break;
+            }
+            paneGrid[blocks[0][i].get()][blocks[1][i].get()].setBackground(b);
         } 
     }
     
@@ -169,42 +185,30 @@ public class TetrisController {
                     Background b = Background.EMPTY;
                     switch (blockGrid[i][j]) {
                         case bL:
-                            //b = new Background(TetriminoBL.getBackground());
-                            b = new Background(new BackgroundFill(Color.BLUE, null, null));
-                            System.out.print("BL: ");
+                            b = new Background(TetriminoBL.getBackground());
                             break;
                         case bZ:
-                            //b = new Background(TetriminoBZ.getBackground());
-                            b = new Background(new BackgroundFill(Color.GREEN, null, null));
-                            System.out.print("BZ: ");
+                            b = new Background(TetriminoBZ.getBackground());
                             break;
                         case LINE:
-                            //b = new Background(TetriminoLine.getBackground());
-                            b = new Background(new BackgroundFill(Color.TEAL, null, null));
-                            System.out.print("Line: ");
+                            b = new Background(TetriminoLine.getBackground());
                             break;
                         case L:
-                            //b = new Background(TetriminoL.getBackground());
-                            b = new Background(new BackgroundFill(Color.ORANGE, null, null));
-                            System.out.print("L: ");
+                            b = new Background(TetriminoL.getBackground());
                             break;
                         case Z:
-                            //b = new Background(TetriminoZ.getBackground());
-                            b = new Background(new BackgroundFill(Color.RED, null, null));
-                            System.out.print("Z: ");
+                            b = new Background(TetriminoZ.getBackground());
                             break;
                         case SQUARE:
-                            //b = new Background(TetriminoSquare.getBackground());
-                            b = new Background(new BackgroundFill(Color.YELLOW, null, null));
-                            System.out.print("Square: ");
+                            b = new Background(TetriminoSquare.getBackground());
                             break;
                         case T:
-                            //b = new Background(TetriminoT.getBackground());
-                            b = new Background(new BackgroundFill(Color.PURPLE, null, null));
-                            System.out.print("T: ");
+                            b = new Background(TetriminoT.getBackground());
                             break;
                     }
-                    System.out.println("setting (" + i + ", " + j + ")");
+                    if (!gameStatus[i][j]) {
+                        b = Background.EMPTY;
+                    }
                     paneGrid[i][j].setBackground(b);
                 }
                 else {

@@ -89,7 +89,7 @@ public class TetriminoT extends Tetrimino {
     }
 
     public static BackgroundImage getBackground() {
-        return new BackgroundImage(new Image("/PurpleBlock.png"), BackgroundRepeat.ROUND, 
-                BackgroundRepeat.ROUND, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        return new BackgroundImage(new Image("/PurpleBlock.png", false), BackgroundRepeat.NO_REPEAT, 
+                BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
     }    
 }
