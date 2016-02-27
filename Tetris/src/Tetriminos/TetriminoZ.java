@@ -90,8 +90,10 @@ public class TetriminoZ extends Tetrimino {
         return blockType.Z;
     }
     
+    static BackgroundImage background = new BackgroundImage(new Image("/RedBlock.png", false), BackgroundRepeat.REPEAT, 
+                BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+    
     public static BackgroundImage getBackground() {
-        return new BackgroundImage(new Image("/RedBlock.png", false), BackgroundRepeat.NO_REPEAT, 
-                BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        return background;
     }    
 }

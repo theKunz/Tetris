@@ -44,8 +44,10 @@ public class TetriminoSquare extends Tetrimino {
         return blockType.SQUARE;
     }
 
+    static BackgroundImage background = new BackgroundImage(new Image("/YellowBlock.png", false), BackgroundRepeat.REPEAT, 
+                BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+    
     public static BackgroundImage getBackground() {
-        return new BackgroundImage(new Image("/YellowBlock.png", false), BackgroundRepeat.NO_REPEAT, 
-                BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        return background;
     } 
 }

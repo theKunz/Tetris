@@ -7,6 +7,11 @@ package tetrisfx;
 
 import Tetriminos.*;
 import java.util.Random;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 
 /**
  *
@@ -17,6 +22,8 @@ public class TetrisModel {
     private final boolean[][] board = new boolean[Tetrimino.GAME_WIDTH][Tetrimino.GAME_HEIGHT];
     private final Tetrimino.blockType[][] blockGrid = new Tetrimino.blockType[Tetrimino.GAME_WIDTH][Tetrimino.GAME_HEIGHT];
     private Tetrimino currentTet;
+    private final BackgroundImage emptyTile = new BackgroundImage(new Image("/BackgroundBlock.png", false), BackgroundRepeat.NO_REPEAT, 
+                BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 
     public TetrisModel() {
         for (boolean[] board1 : board) {
@@ -87,6 +94,10 @@ public class TetrisModel {
 
     public Tetrimino getActiveTetrimino() {
         return currentTet;
+    }
+    
+    public BackgroundImage getEmptyTile() {
+        return emptyTile;
     }
     
     private void printBoardState() {

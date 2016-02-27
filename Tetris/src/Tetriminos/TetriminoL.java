@@ -88,8 +88,10 @@ public class TetriminoL extends Tetrimino {
         return blockType.L;
     }
 
+    static BackgroundImage background = new BackgroundImage(new Image("/OrangeBlock.png", false), BackgroundRepeat.REPEAT, 
+                BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+    
     public static BackgroundImage getBackground() {
-        return new BackgroundImage(new Image("/OrangeBlock.png", false), BackgroundRepeat.NO_REPEAT, 
-                BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        return background;
     }
 }

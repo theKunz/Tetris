@@ -107,7 +107,7 @@ public class TetrisView {
         root.add(scoresAndMenu, 1, 0);
         
         root.setGridLinesVisible(true); //debugging
-        mainField.setGridLinesVisible(true);
+        //mainField.setGridLinesVisible(true);
         scoresAndMenu.setGridLinesVisible(true);
         
         newGame = new Button();

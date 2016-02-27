@@ -18,11 +18,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 /**
  *
@@ -39,20 +41,21 @@ public class TetrisController {
     boolean[][] gameStatus;
     Tetrimino.blockType[][] blockGrid;
     boolean stopGameLoop = false;
+    BackgroundImage emptyTile = new BackgroundImage(new Image("/BackgroundBlock.png", false), BackgroundRepeat.REPEAT, 
+                BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
     
     public TetrisController(TetrisModel model, TetrisView view) {
         this.view = view;
         this.model = model;
-        
-        currentTet = model.getActiveTetrimino();
+        //currentTet = model.getActiveTetrimino();
         paneGrid = view.getPaneGrid();
         gameStatus = model.getBoardState();
         blockGrid = model.getBlockColors();
-        for (int i = 0; i < 4; i++) {
+        reset();
+        /*for (int i = 0; i < 4; i++) {
             addBlockListeners(i);  
-        }
+        }*/
         
-        //testing----------
         Scene scene = view.getScene();
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
@@ -102,7 +105,7 @@ public class TetrisController {
             for (int j = 0; j < Tetrimino.GAME_HEIGHT; j++) {
                 gameStatus[i][j] = false;
                 blockGrid[i][j] = null;
-                paneGrid[i][j].setBackground(Background.EMPTY);
+                paneGrid[i][j].setBackground(new Background(emptyTile));
             }
         }
         model.generateRandomTetrimino();
@@ -138,10 +141,10 @@ public class TetrisController {
         int xval = blocks[0][blockNum].get();
         
         if (isX) {
-            paneGrid[oldv][yval].setBackground(Background.EMPTY);
+            paneGrid[oldv][yval].setBackground(new Background(emptyTile));
         }
         else {
-            paneGrid[xval][oldv].setBackground(Background.EMPTY);           
+            paneGrid[xval][oldv].setBackground(new Background(emptyTile));           
         }
         redrawBoard(gameStatus, blocks);
     }
@@ -149,7 +152,7 @@ public class TetrisController {
     private void redrawBlocks(SimpleIntegerProperty[][] blocks) {
         //then redraw the active tetrimino
         for (int i = 0; i < 4; i++) {
-            Background b = Background.EMPTY;
+            Background b = new Background(emptyTile);
                 switch (currentTet.getBlockType()) {
                     case bL:
                     b = new Background(TetriminoBL.getBackground());
@@ -182,7 +185,7 @@ public class TetrisController {
         for (int i = 0; i < Tetrimino.GAME_WIDTH; i++) {
             for (int j = 0; j < Tetrimino.GAME_HEIGHT; j++) {
                 if (blockGrid[i][j] != null) {
-                    Background b = Background.EMPTY;
+                    Background b = new Background(emptyTile);
                     switch (blockGrid[i][j]) {
                         case bL:
                             b = new Background(TetriminoBL.getBackground());
@@ -207,13 +210,13 @@ public class TetrisController {
                             break;
                     }
                     if (!gameStatus[i][j]) {
-                        b = Background.EMPTY;
+                        b = new Background(emptyTile);
                     }
                     paneGrid[i][j].setBackground(b);
                 }
                 else {
                     //TODO: add a custom background image
-                    paneGrid[i][j].setBackground(Background.EMPTY);
+                    paneGrid[i][j].setBackground(new Background(emptyTile));
                 }
             }
         }
@@ -289,7 +292,7 @@ public class TetrisController {
                     if (i == 0) {
                         gameStatus[xval][i] = false;
                         blockGrid[xval][i] = null;
-                        paneGrid[xval][i].setBackground(Background.EMPTY);
+                        paneGrid[xval][i].setBackground(new Background(emptyTile));
                     } else {
                         gameStatus[xval][i] = gameStatus[xval][i - 1];
                         blockGrid[xval][i] = blockGrid[xval][i - 1];
