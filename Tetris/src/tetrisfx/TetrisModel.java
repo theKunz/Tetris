@@ -22,8 +22,8 @@ public class TetrisModel {
     private final boolean[][] board = new boolean[Tetrimino.GAME_WIDTH][Tetrimino.GAME_HEIGHT];
     private final Tetrimino.blockType[][] blockGrid = new Tetrimino.blockType[Tetrimino.GAME_WIDTH][Tetrimino.GAME_HEIGHT];
     private Tetrimino currentTet;
-    private final BackgroundImage emptyTile = new BackgroundImage(new Image("/BackgroundBlock.png", false), BackgroundRepeat.NO_REPEAT, 
-                BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+    private final BackgroundImage emptyTile = new BackgroundImage(new Image("/BackgroundBlock.png", false), BackgroundRepeat.REPEAT, 
+                BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 
     public TetrisModel() {
         for (boolean[] board1 : board) {

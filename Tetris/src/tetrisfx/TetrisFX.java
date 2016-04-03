@@ -5,8 +5,12 @@
  */
 package tetrisfx;
 
+import java.io.File;
 import javafx.application.Application;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
@@ -24,6 +28,7 @@ public class TetrisFX extends Application {
         model = new TetrisModel();
         controller = new TetrisController(model, view);
         
+
     }
 
     /**

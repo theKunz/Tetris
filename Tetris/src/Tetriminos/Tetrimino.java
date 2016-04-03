@@ -8,6 +8,7 @@ package Tetriminos;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 /**
@@ -45,7 +46,7 @@ public abstract class Tetrimino {
     
     public abstract blockType getBlockType();
     
-    public static BackgroundImage getBackground() {return null;}; //should override this in child classes
+    public static Background getBackground() {return null;}; //should override this in child classes
     
     protected boolean boardIsGood(boolean[][] board) {
         return (board != null && board.length == GAME_WIDTH && board[0].length == GAME_HEIGHT);

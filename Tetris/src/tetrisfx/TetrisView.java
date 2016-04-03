@@ -6,6 +6,7 @@
 package tetrisfx;
 
 import Tetriminos.Tetrimino;
+import java.io.File;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,14 +16,23 @@ import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 
 
@@ -64,7 +74,7 @@ public class TetrisView {
         root.setVgap(10);
         
         root.add(mainField, 0, 0);
-        
+        root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
         ColumnConstraints columnBox;         
         for (int i = 0; i < 100 / BOX_WIDTH; i++) {
                 columnBox = new ColumnConstraints();
@@ -80,7 +90,8 @@ public class TetrisView {
             mainField.getRowConstraints().add(rowBox);
         }
         mainField.setPadding(new Insets(10, 10, 10, 10));
-        
+        mainField.setBackground(new Background(new BackgroundImage(new Image("/GameBorder.png", false), BackgroundRepeat.REPEAT,
+                                    BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         for (int i = 0; i < 100 / BOX_WIDTH; i++) {
             for (int j = 0; j < 100/ BOX_HEIGHT; j++) {
                 paneGrid[i][j] = new Pane();
@@ -88,8 +99,6 @@ public class TetrisView {
                 mainField.add(paneGrid[i][j], i, j);
             }
         }
-        mainField.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, null, null)));
-        //TODO: add proper background in place of this holder
         
         RowConstraints nextTetriminoLabel = new RowConstraints();
         nextTetriminoLabel.setPercentHeight(5);
@@ -106,7 +115,7 @@ public class TetrisView {
         scoresAndMenu.getColumnConstraints().add(col1);
         root.add(scoresAndMenu, 1, 0);
         
-        root.setGridLinesVisible(true); //debugging
+        //root.setGridLinesVisible(true); //debugging
         //mainField.setGridLinesVisible(true);
         scoresAndMenu.setGridLinesVisible(true);
         
@@ -130,6 +139,18 @@ public class TetrisView {
         primaryStage.setTitle("Tetris");
         primaryStage.setScene(scene);
         primaryStage.show();
+        
+        String musicFile = "TetrisTheme10Mins.mp3";
+        Media sound = new Media(new File(musicFile).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                mediaPlayer.seek(Duration.ZERO);
+            }
+        });
+        mediaPlayer.setAutoPlay(true);
+        MediaView mediaView = new MediaView(mediaPlayer);
+        root.getChildren().add(mediaView);
     }
     
     public GridPane getGameGrid() {

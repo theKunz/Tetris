@@ -7,6 +7,7 @@ package Tetriminos;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
@@ -88,10 +89,11 @@ public class TetriminoBL extends Tetrimino {
         return blockType.bL;
     }
 
-    static BackgroundImage background = new BackgroundImage(new Image("/BlueBlock.png", false), BackgroundRepeat.REPEAT, 
-                BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+    static Background background = new Background(new BackgroundImage(new Image("/BlueBlock.png", false), BackgroundRepeat.REPEAT, 
+                BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT));
     
-    public static BackgroundImage getBackground() {
+    
+    public static Background getBackground() {
         return background;
     }
     

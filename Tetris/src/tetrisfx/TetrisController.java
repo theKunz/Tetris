@@ -41,8 +41,8 @@ public class TetrisController {
     boolean[][] gameStatus;
     Tetrimino.blockType[][] blockGrid;
     boolean stopGameLoop = false;
-    BackgroundImage emptyTile = new BackgroundImage(new Image("/BackgroundBlock.png", false), BackgroundRepeat.REPEAT, 
-                BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+    Background emptyTile = new Background(new BackgroundImage(new Image("/BackgroundBlock.png", true), BackgroundRepeat.REPEAT, 
+                BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT));
     
     public TetrisController(TetrisModel model, TetrisView view) {
         this.view = view;
@@ -105,7 +105,7 @@ public class TetrisController {
             for (int j = 0; j < Tetrimino.GAME_HEIGHT; j++) {
                 gameStatus[i][j] = false;
                 blockGrid[i][j] = null;
-                paneGrid[i][j].setBackground(new Background(emptyTile));
+                paneGrid[i][j].setBackground(emptyTile);
             }
         }
         model.generateRandomTetrimino();
@@ -141,10 +141,10 @@ public class TetrisController {
         int xval = blocks[0][blockNum].get();
         
         if (isX) {
-            paneGrid[oldv][yval].setBackground(new Background(emptyTile));
+            paneGrid[oldv][yval].setBackground(emptyTile);
         }
         else {
-            paneGrid[xval][oldv].setBackground(new Background(emptyTile));           
+            paneGrid[xval][oldv].setBackground(emptyTile);           
         }
         redrawBoard(gameStatus, blocks);
     }
@@ -152,28 +152,28 @@ public class TetrisController {
     private void redrawBlocks(SimpleIntegerProperty[][] blocks) {
         //then redraw the active tetrimino
         for (int i = 0; i < 4; i++) {
-            Background b = new Background(emptyTile);
+            Background b = emptyTile;
                 switch (currentTet.getBlockType()) {
                     case bL:
-                    b = new Background(TetriminoBL.getBackground());
+                    b = TetriminoBL.getBackground();
                     break;
                 case bZ:
-                    b = new Background(TetriminoBZ.getBackground());
+                    b = TetriminoBZ.getBackground();
                     break;
                 case LINE:
-                    b = new Background(TetriminoLine.getBackground());
+                    b = TetriminoLine.getBackground();
                     break;
                 case L:
-                    b = new Background(TetriminoL.getBackground());
+                    b = TetriminoL.getBackground();
                     break;
                 case Z:
-                    b = new Background(TetriminoZ.getBackground());
+                    b = TetriminoZ.getBackground();
                     break;
                 case SQUARE:
-                    b = new Background(TetriminoSquare.getBackground());
+                    b = TetriminoSquare.getBackground();
                     break;
                 case T:
-                    b = new Background(TetriminoT.getBackground());
+                    b = TetriminoT.getBackground();
                     break;
             }
             paneGrid[blocks[0][i].get()][blocks[1][i].get()].setBackground(b);
@@ -185,38 +185,38 @@ public class TetrisController {
         for (int i = 0; i < Tetrimino.GAME_WIDTH; i++) {
             for (int j = 0; j < Tetrimino.GAME_HEIGHT; j++) {
                 if (blockGrid[i][j] != null) {
-                    Background b = new Background(emptyTile);
+                    Background b = emptyTile;
                     switch (blockGrid[i][j]) {
                         case bL:
-                            b = new Background(TetriminoBL.getBackground());
+                            b = TetriminoBL.getBackground();
                             break;
                         case bZ:
-                            b = new Background(TetriminoBZ.getBackground());
+                            b = TetriminoBZ.getBackground();
                             break;
                         case LINE:
-                            b = new Background(TetriminoLine.getBackground());
+                            b = TetriminoLine.getBackground();
                             break;
                         case L:
-                            b = new Background(TetriminoL.getBackground());
+                            b = TetriminoL.getBackground();
                             break;
                         case Z:
-                            b = new Background(TetriminoZ.getBackground());
+                            b = TetriminoZ.getBackground();
                             break;
                         case SQUARE:
-                            b = new Background(TetriminoSquare.getBackground());
+                            b = TetriminoSquare.getBackground();
                             break;
                         case T:
-                            b = new Background(TetriminoT.getBackground());
+                            b = TetriminoT.getBackground();
                             break;
                     }
                     if (!gameStatus[i][j]) {
-                        b = new Background(emptyTile);
+                        b = emptyTile;
                     }
                     paneGrid[i][j].setBackground(b);
                 }
                 else {
                     //TODO: add a custom background image
-                    paneGrid[i][j].setBackground(new Background(emptyTile));
+                    paneGrid[i][j].setBackground(emptyTile);
                 }
             }
         }
@@ -292,7 +292,7 @@ public class TetrisController {
                     if (i == 0) {
                         gameStatus[xval][i] = false;
                         blockGrid[xval][i] = null;
-                        paneGrid[xval][i].setBackground(new Background(emptyTile));
+                        paneGrid[xval][i].setBackground(emptyTile);
                     } else {
                         gameStatus[xval][i] = gameStatus[xval][i - 1];
                         blockGrid[xval][i] = blockGrid[xval][i - 1];
